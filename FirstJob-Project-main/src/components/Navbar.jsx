@@ -1,29 +1,31 @@
 import { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { logoutUser, setUser } from '../redux/authentication/action';
 import { UserCircle, LogIn, ChevronDown } from 'lucide-react';
 import logo1 from "../assets/logo1.png";
 import avtar from '../assets/avtar.png';
 import { Button } from './ui/button';
+import { getUserFromSessionStorage } from '@/redux/authentication/action';
 
 const Navbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);  
   const dropdownRef = useRef(null);  
   const dispatch = useDispatch();
-  const { user, token } = useSelector(state => state.user); // Access user data and token directly
+  const user = useSelector((state) => state?.userReducer?.user)
 
   useEffect(() => {
-    const storedToken = localStorage.getItem('token');
-    if (storedToken && !token) {
-      dispatch(setUser({ name: 'User', image: 'user-image-url' }, storedToken));
-    }
-  }, [token, dispatch]);
+    const token = localStorage.getItem("token");
+  }, []);
+
+  useEffect(() => {
+    dispatch(getUserFromSessionStorage())
+  }, [])
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
-    dispatch(logoutUser());
-    setIsDropdownOpen(false);  
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    dispatch(logout());
+    navigate("/signin");
   };
 
   useEffect(() => {
@@ -53,7 +55,7 @@ const Navbar = () => {
               <Link to="/resources" className="hover:underline">Resources</Link>
             </nav>
             <div className="flex items-center space-x-4">
-              {token ? (
+              {user ? (
                 <div className="relative">
                   <div onClick={() => setIsDropdownOpen(prevState => !prevState)} className="flex items-center cursor-pointer">
                     <img

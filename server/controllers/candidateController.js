@@ -51,7 +51,7 @@ const login = async (req, res) => {
     delete user.password;
     const token = await createToken(user);
     
-    res.status(200).json({ token });
+    res.status(200).json({ data:user, token });
   } catch (error) {
     res.status(400).json({ message: error?.message });
   }

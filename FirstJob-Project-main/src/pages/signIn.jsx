@@ -5,8 +5,11 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { useDispatch } from 'react-redux';
+import { login } from '@/redux/authentication/action';
 
 function SignIn() {
+  const dispatch = useDispatch()
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
@@ -27,9 +30,11 @@ function SignIn() {
       const response = await axios.post("http://localhost:8000/api/candidate/login", formData);
   
       if (response.status === 200) {
-        const { token, message } = response.data;
+        const { token, data, message } = response.data;
         toast.success(message);
         localStorage.setItem("token", token); 
+        localStorage.setItem("user", JSON.stringify(data))
+        dispatch(login(data));
         navigate("/");
       }
     } catch (error) {

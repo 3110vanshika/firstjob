@@ -13,6 +13,7 @@ import SavedJobs from './pages/SavedJobs';
 import PostJobs from './pages/PostJobs';
 import PostJobPage from './pages/PostJobPage';
 import JobPage from './pages/JobPage';
+import Userprofile from './pages/Userprofile';
 
 
 
@@ -53,6 +54,10 @@ const router = createBrowserRouter([
       {
         path: '/postJobPage',
         element: <PostJobPage />,
+      },
+      {
+        path: '/userProfile',
+        element: <Userprofile />,
       }
     ],
   },

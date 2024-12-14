@@ -1,12 +1,13 @@
-// store.js
+import { configureStore } from '@reduxjs/toolkit'
 import rootReducer from './rootReducer';
-import { configureStore } from '@reduxjs/toolkit';
 
 
-window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()  // for Redux DevTools support
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const store = configureStore({
-    reducer: rootReducer
+    reducer: rootReducer,
+
 })
+
 
 export default store;

@@ -1,29 +1,25 @@
-// reducer.js
+import { GET_USER_FROM_SESSION_STORAGE, LOGIN, LOGOUT } from "./constant";
 
-import { LOGOUT, SET_USER } from "./constant";
 
 const initialState = {
-  user: null,
-  token: null,
+    user: null,
 };
 
 const userReducer = (state = initialState, action) => {
-  switch (action.type) {
-    case SET_USER:
-      return {
-        ...state,
-        user: action.payload.user,
-        token: action.payload.token,
-      };
-    case LOGOUT:
-      return {
-        ...state,
-        user: null,
-        token: null,
-      };
-    default:
-      return state;
-  }
+    switch (action.type) {
+        case LOGIN:
+            return {...state, user:action?.payload};
+        case LOGOUT:
+            return {...state, user:null};
+        case GET_USER_FROM_SESSION_STORAGE: {
+            {
+                const getUserFromSessionStorage = sessionStorage.getItem("user")
+                return {...state, user: JSON.parse(getUserFromSessionStorage)}
+            }
+        }
+        default:
+            return state;
+    }
 };
 
 export default userReducer;
